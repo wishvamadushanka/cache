@@ -17,6 +17,7 @@ module testcache;
     reg [line_size - 1:0] address;
     reg clk,reset;
     integer i;
+    
 
     cache mycache(busywait, data, reset, clk, address);
 
@@ -25,11 +26,12 @@ module testcache;
 	begin
 		$dumpfile("wavedata.vcd");
 		$dumpvars(0,testcache);
+        // $dumpvars(0, mycache.tag_reg[0]);
     
-    // for(i = 0;i <3; i = i + 1)begin
-	// 		$dumpvars(0, mycache.tag_reg[]);
-	// 	end
-			
+        // for(i = 0; i < 1; i = i + 1)begin
+        //     $dumpvars(0, mycache.valid_bit_assiotivity[0].valid_b);
+        // end
+        
 	end
 
   //clock 
@@ -48,10 +50,10 @@ module testcache;
         reset <= 1'b0;
 
         #9 
-        address <= 31'd1;
+        address <= 32'b100000000000000000000001_1001_11_10;
         
         #10
-        address <= 31'd2;
+        address <= 32'd2;
 
         #10
         reset <= 1'b1;
