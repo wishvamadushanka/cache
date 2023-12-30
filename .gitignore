@@ -1,2 +1,2 @@
-*.out
+./verilog/testbench/*.out
 *.vcd
