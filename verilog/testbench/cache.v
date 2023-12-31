@@ -16,7 +16,7 @@ module testcache;
     wire [line_size - 1:0] data;
     reg [line_size - 1:0] address;
     reg clk,reset;
-    integer i;
+    integer i,j;
     
 
     cache mycache(busywait, data, reset, clk, address);
@@ -28,9 +28,10 @@ module testcache;
 		$dumpvars(0,testcache);
         // $dumpvars(0, mycache.tag_reg[0]);
     
-        // for(i = 0; i < 1; i = i + 1)begin
-        //     $dumpvars(0, mycache.valid_bit_assiotivity[0].valid_b);
-        // end
+        for(i = 0; i < 16; i = i + 1)begin
+            $dumpvars(0, mycache.valid_bit_reg[0][i]);
+            // $dumpvars(0, mycache.valid_bit_reg[1][i]);
+        end
         
 	end
 
@@ -44,12 +45,13 @@ module testcache;
 	initial
 	begin
         clk = 1'b1;
+        #1
         reset <= 1'b1;
 
         #1
         reset <= 1'b0;
 
-        #9 
+        #5 
         address <= 32'b100000000000000000000001_1001_11_10;
         
         #10
@@ -57,6 +59,8 @@ module testcache;
 
         #10
         reset <= 1'b1;
+
+        #10
 
         $finish;
 
