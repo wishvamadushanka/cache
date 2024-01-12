@@ -29,30 +29,30 @@ module testcache;
         // $dumpvars(0, mycache.tag_reg[0]);
     
         // for(i = 0; i < 4; i = i + 1)begin
-        //     // $dumpvars(0, mycache.valid_bit_reg[1][i]);
-        //     $dumpvars(0, mycache.valid_bit_reg[9][i]);
+        //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
+        //     $dumpvars(0, mycache.c_valid_bit[9][i]);
         // end
-        $dumpvars(0, mycache.valid_bit_reg[9][0]);
-        $dumpvars(0, mycache.valid_bit_reg[9][1]);
+        $dumpvars(0, mycache.c_valid_bit[9][0]);
+        $dumpvars(0, mycache.c_valid_bit[9][1]);
 
-        $dumpvars(0, mycache.tag_reg[9][0]);
-        $dumpvars(0, mycache.tag_reg[9][1]);
+        $dumpvars(0, mycache.c_tag[9][0]);
+        $dumpvars(0, mycache.c_tag[9][1]);
 
-        $dumpvars(0, mycache.word_reg[9][0][2]);
-        $dumpvars(0, mycache.word_reg[9][1][2]);
-        $dumpvars(0, mycache.word_reg[9][0][3]);
-        $dumpvars(0, mycache.word_reg[9][1][3]);
+        $dumpvars(0, mycache.c_word[9][0][2]);
+        $dumpvars(0, mycache.c_word[9][1][2]);
+        $dumpvars(0, mycache.c_word[9][0][3]);
+        $dumpvars(0, mycache.c_word[9][1][3]);
 
-        // $dumpvars(0, mycache.valid_bit_reg[9][0]);
-        // $dumpvars(0, mycache.valid_bit_reg[9][1]);
+        // $dumpvars(0, mycache.c_valid_bit[9][0]);
+        // $dumpvars(0, mycache.c_valid_bit[9][1]);
 
         for(i = 0; i < 2; i = i + 1)begin
-            // $dumpvars(0, mycache.valid_bit_reg[1][i]);
-            $dumpvars(0, mycache.valid_assiotivity[i]);
-            $dumpvars(0, mycache.tag_assiotivity[i]);
-            $dumpvars(0, mycache.hit_tag_assiotivity[i]);
-            $dumpvars(0, mycache.hit_AND_valid[i]);
-            $dumpvars(0, mycache.data_cache[i]);
+            // $dumpvars(0, mycache.c_valid_bit[1][i]);
+            $dumpvars(0, mycache.valid_bit_frm_c[i]);
+            $dumpvars(0, mycache.tag_frm_c[i]);
+            $dumpvars(0, mycache.hit_frm_c[i]);
+            $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[i]);
+            $dumpvars(0, mycache.data_frm_c[i]);
         end
         
 	end

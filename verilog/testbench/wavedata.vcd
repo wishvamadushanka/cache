@@ -1,5 +1,5 @@
 $date
-	Sun Dec 31 16:45:28 2023
+	Fri Jan 12 16:41:48 2024
 $end
 $version
 	Icarus Verilog
@@ -8,129 +8,129 @@ $timescale
 	1ps
 $end
 $scope module testcache $end
-$var wire 1 ! busywait $end
-$var wire 32 " data [31:0] $end
+$var wire 32 ! data [31:0] $end
+$var wire 1 " busywait $end
 $var parameter 32 # line_size $end
 $var reg 32 $ address [31:0] $end
 $var reg 1 % clk $end
 $var reg 1 & reset $end
 $var integer 32 ' i [31:0] $end
 $scope module mycache $end
-$var wire 32 ( address [31:0] $end
-$var wire 1 ! busywait $end
-$var wire 1 % clk $end
-$var wire 1 & reset $end
-$var wire 24 ) tag [23:0] $end
-$var wire 2 * offset [1:0] $end
-$var wire 4 + index [3:0] $end
-$var parameter 32 , assiotivity $end
-$var parameter 32 - index_depth $end
-$var parameter 32 . line_size $end
-$var parameter 32 / offset_size $end
-$var parameter 35 0 tag_size $end
-$var reg 32 1 data [31:0] $end
-$var reg 1 2 hit $end
+$var wire 32 ( address_i [31:0] $end
+$var wire 1 % clk_i $end
+$var wire 1 & reset_i $end
+$var wire 24 ) tag_addr [23:0] $end
+$var wire 2 * offset_addr [1:0] $end
+$var wire 4 + index_addr [3:0] $end
+$var parameter 32 , c_assiotivity $end
+$var parameter 32 - c_block_size $end
+$var parameter 32 . c_index $end
+$var parameter 32 / c_line_size $end
+$var parameter 35 0 c_tag_size $end
+$var reg 1 " c_busywait_o $end
+$var reg 32 1 c_data_o [31:0] $end
+$var reg 1 2 c_hit $end
 $var integer 32 3 i [31:0] $end
 $var integer 32 4 j [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 5 \valid_bit_reg[18] $end
+$var reg 1 5 \c_valid_bit[18] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 6 \valid_bit_reg[19] $end
+$var reg 1 6 \c_valid_bit[19] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 24 7 \tag_reg[18] [23:0] $end
+$var reg 24 7 \c_tag[18] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 24 8 \tag_reg[19] [23:0] $end
+$var reg 24 8 \c_tag[19] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 9 \word_reg[74] [31:0] $end
+$var reg 32 9 \c_word[74] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 : \word_reg[78] [31:0] $end
+$var reg 32 : \c_word[78] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 ; \word_reg[75] [31:0] $end
+$var reg 32 ; \c_word[75] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 < \word_reg[79] [31:0] $end
+$var reg 32 < \c_word[79] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 = \valid_assiotivity[0] $end
+$var reg 1 = \valid_bit_frm_c[0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 24 > \tag_assiotivity[0] [23:0] $end
+$var reg 24 > \tag_frm_c[0] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 ? \hit_tag_assiotivity[0] $end
+$var reg 1 ? \hit_frm_c[0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 @ \hit_AND_valid[0] $end
+$var reg 1 @ \hit_frm_c_AND_valid_bit_frm_c[0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 A \data_cache[0] [31:0] $end
+$var reg 32 A \data_frm_c[0] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 B \valid_assiotivity[1] $end
+$var reg 1 B \valid_bit_frm_c[1] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 24 C \tag_assiotivity[1] [23:0] $end
+$var reg 24 C \tag_frm_c[1] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 D \hit_tag_assiotivity[1] $end
+$var reg 1 D \hit_frm_c[1] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 E \hit_AND_valid[1] $end
+$var reg 1 E \hit_frm_c_AND_valid_bit_frm_c[1] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 F \data_cache[1] [31:0] $end
+$var reg 32 F \data_frm_c[1] [31:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 $comment Show the parameter values. $end
 $dumpall
 b11000 0
-b10 /
-b100000 .
-b100 -
+b100000 /
+b100 .
+b10 -
 b1 ,
 b100000 #
 $end
@@ -166,8 +166,8 @@ b10 '
 x&
 1%
 bx $
-bx "
-z!
+0"
+bx !
 $end
 #1000
 bx A
@@ -207,6 +207,7 @@ b100000000000000000000001 7
 05
 b10 4
 b10000 3
+1"
 1%
 #15000
 0%
