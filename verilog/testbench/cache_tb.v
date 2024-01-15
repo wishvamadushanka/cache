@@ -19,15 +19,15 @@ module testcache;
     reg clk, reset, c_read_i, c_wr_i;
     integer i,j;
     
-    wire c_m_busywait_i, c_m_read_o, c_m_wr_o;
+    wire c_m_busywait_i, c_m_read_o, c_m_wr_o, m_write_done, m_read_done;
     wire [2**c_block_size*c_line_size - 1 : 0] c_m_read_data_i;
     wire [2**c_block_size*c_line_size - 1 : 0] c_m_write_data_o;
     wire [address_size - c_block_size - 3:0] c_m_address_o;
 
     //c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset_i, clk_i, address_i, c_read_i, c_wr_i, c_m_busywait_i, c_m_read_data_i
-    cache mycache(c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset, clk, address, c_read_i, c_wr_i, c_m_busywait_i, c_m_read_data_i);
+    cache mycache(c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset, clk, address, c_read_i, c_wr_i, c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done);
     //memory module connect
-    memory data_memory(c_m_busywait_i, c_m_read_data_i, clk, reset, c_m_read_o, c_m_wr_o, c_m_address_o, c_m_write_data_o);
+    memory data_memory(c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done, clk, reset, c_m_read_o, c_m_wr_o, c_m_address_o, c_m_write_data_o);
     //m_busywait_o, m_read_data_o, m_clk_i, m_read_i, m_wr_i, m_reset_i, m_addr_i, m_wr_data_i
 
 
@@ -48,10 +48,7 @@ module testcache;
         $dumpvars(0, mycache.c_tag[9][0]);
         $dumpvars(0, mycache.c_tag[9][1]);
 
-        $dumpvars(0, mycache.c_word[9][1][0]);
-        $dumpvars(0, mycache.c_word[9][1][1]);
-        $dumpvars(0, mycache.c_word[9][1][2]);
-        $dumpvars(0, mycache.c_word[9][1][3]);
+        $dumpvars(0, mycache.c_word[9][1]);
 
         $dumpvars(0, mycache.valid_bit_frm_c[0]);
         $dumpvars(0, mycache.valid_bit_frm_c[1]);

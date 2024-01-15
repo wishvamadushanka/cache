@@ -1,5 +1,5 @@
 module memory (
-    m_busywait_o, m_read_data_o, m_clk_i, m_reset_i, m_read_i, m_wr_i, m_addr_i, m_wr_data_i
+    m_busywait_o, m_read_data_o, m_write_done, m_read_done, m_clk_i, m_reset_i, m_read_i, m_wr_i, m_addr_i, m_wr_data_i
 );
 
     parameter  c_block_size = 2, c_line_size = 32, address_size = 32, mem_line_size = 32;
@@ -10,6 +10,7 @@ module memory (
 
     output reg [2**c_block_size*c_line_size - 1 : 0] m_read_data_o;
     output reg m_busywait_o;
+    output reg m_write_done, m_read_done;
 
     reg [c_block_size + 1:0] byte_read_count;
 
@@ -42,7 +43,7 @@ module memory (
     //     if(m_busywait_o) byte_read_count = byte_read_count + 1;
     // end
 
-    parameter IDLE = 00, MEM_READ = 01, MEM_WRITE = 10;
+    parameter IDLE = 000, MEM_READ = 001, MEM_WRITE = 010, MEM_READ_DONE = 011, ME_WRITE_DONE = 100;
 
     reg [1:0] m_state, m_n_state;
     //control signals based on state
@@ -50,16 +51,28 @@ module memory (
         case (m_state)
             IDLE: begin
                 m_busywait_o = 0;
+                m_write_done = 1'b0;
+                m_read_done = 1'b0;
             end
             MEM_READ: begin
                 m_busywait_o = 1;
+                m_write_done = 1'b0;
+                m_read_done = 1'b0;
                 // m_read_data_o[mem_line_size * byte_read_count - 1 : mem_line_size * (byte_read_count - 1)] = memory[{m_addr_i, byte_read_count}];
                 // m_read_data_o = {memory[{m_addr_i, byte_read_count}], };
 
             end
             MEM_WRITE: begin
                 m_busywait_o = 1;
+                m_write_done = 1'b0;
+                m_read_done = 1'b0;
                 // memory[{m_addr_i, byte_read_count}] = m_wr_data_i[mem_line_size * byte_read_count - 1 : mem_line_size * (byte_read_count - 1)];
+            end
+            MEM_READ_DONE: begin
+                m_read_done = 1'b1;
+            end
+            MEM_READ_DONE: begin
+                m_write_done = 1'b1;
             end
         endcase
     end
@@ -90,10 +103,16 @@ module memory (
                 else if (m_wr_i) m_n_state = MEM_WRITE;
             end
             MEM_READ: begin
-                if(&byte_read_count) m_n_state = IDLE;
+                if(&byte_read_count) m_n_state = MEM_READ_DONE;
             end
             MEM_WRITE: begin
-                if(&byte_read_count) m_n_state = IDLE;
+                if(&byte_read_count) m_n_state = ME_WRITE_DONE;
+            end
+            MEM_READ_DONE: begin
+                m_n_state = IDLE;
+            end
+            ME_WRITE_DONE: begin
+                m_n_state = IDLE;
             end
 
         endcase
