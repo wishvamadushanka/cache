@@ -1,12 +1,25 @@
+// `include "./memory.v"
+
 module cache (
-    c_busywait_o, c_data_o, reset_i, clk_i, address_i, c_read_i, c_wr_i
+    c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset_i, clk_i, address_i, c_read_i, c_wr_i, c_m_busywait_i, c_m_read_data_i
 );
-    parameter c_line_size = 32, c_assiotivity = 2, c_index = 4, c_block_size = 2; // cache line size, assiotivity, index size, block size
+
+//m_busywait_o, m_data_o, m_clk_i, m_read_i, m_wr_i, m_reset_i, m_addr_i
+    parameter c_line_size = 32, c_assiotivity = 2, c_index = 4, c_block_size = 2, address_size = 32; // cache line size, assiotivity, index size, block size
     parameter c_tag_size = c_line_size - c_index - c_block_size - 2;
+    // parameter c_block_size = c_line_size*(2**c_block_size);
     integer i, j;
 
     input reset_i, clk_i, c_read_i, c_wr_i;
-    input [c_line_size - 1:0] address_i;
+    input [address_size - 1:0] address_i;
+
+    //for data memory from cache
+    output reg c_m_read_o, c_m_wr_o;
+    output reg [2**c_block_size*c_line_size - 1:0] c_m_write_data_o;
+    output [address_size - c_block_size - 3:0] c_m_address_o;
+    input [2**c_block_size*c_line_size - 1:0] c_m_read_data_i;
+    input c_m_busywait_i;
+
 
     output reg [c_line_size - 1:0] c_data_o;
     output reg c_busywait_o;
@@ -36,6 +49,11 @@ module cache (
     assign offset_addr = address_i[c_block_size + 1:2];
     assign index_addr = address_i[c_index + c_block_size + 1:c_block_size + 2];
     assign tag_addr = address_i[c_line_size - 1:c_index + c_block_size + 2];
+
+
+    //address for data memeory
+    assign c_m_address_o = {address_i[address_size : c_block_size + 2]};
+    
 
 
     //read data, valid bit, check tag == cache tag from cache sets
@@ -114,7 +132,7 @@ module cache (
     
 
     //state machine
-    parameter IDLE = 3'b000, MEM_READ = 3'b001, MEM_WRITE = 3'b010, CACHE_WRITE_BACK = 3'b011;
+    parameter IDLE = 3'b000, MEM_READ = 3'b001, MEM_WRITE = 3'b010;   //, CACHE_WRITE_BACK = 3'b011;
     reg [2:0] c_state, c_n_state;
 
     //state transisstion
@@ -122,9 +140,14 @@ module cache (
     begin
         case (c_state)
             IDLE: begin
-                if(!c_hit && (c_read_i || c_wr_i) && ) begin
-
+                if(!c_hit && (c_read_i || c_wr_i) && is_dirty) begin
+                    c_n_state <= MEM_WRITE;
                 end
+                else if (!c_hit && (c_read_i || c_wr_i) && !is_dirty) begin
+                    c_n_state <= MEM_READ;
+                end
+                else
+                    c_n_state <= IDLE;
             end
         endcase
     end
@@ -136,6 +159,9 @@ module cache (
             IDLE: begin
                 c_busywait_o <= 1'b0;
             end
+            MEM_READ: begin
+                c_busywait_o <= 1'b1;
+            end
         endcase
     end
 
@@ -144,13 +170,5 @@ module cache (
         if (reset_i) c_state <= IDLE;
         else c_state <= c_n_state;
     end
-
-    // //busy wait
-    // always @(*) begin
-    //     if (!c_hit & (c_read_i | c_wr_i)) 
-    //         c_busywait_o = 1'b1;
-    //     else
-    //         c_busywait_o = 1'b0;
-    // end
 
 endmodule
