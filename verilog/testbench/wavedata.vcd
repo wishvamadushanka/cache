@@ -1,5 +1,5 @@
 $date
-	Mon Jan 15 22:49:15 2024
+	Tue Jan 16 19:17:58 2024
 $end
 $version
 	Icarus Verilog
@@ -33,22 +33,22 @@ $var wire 1 $ m_wr_i $end
 $var wire 128 3 m_wr_data_i [127:0] $end
 $var wire 1 % m_read_i $end
 $var wire 28 4 m_addr_i [27:0] $end
-$var parameter 32 5 IDLE $end
-$var parameter 32 6 MEM_READ $end
-$var parameter 32 7 MEM_READ_DONE $end
-$var parameter 32 8 MEM_WRITE $end
-$var parameter 32 9 ME_WRITE_DONE $end
+$var parameter 3 5 IDLE $end
+$var parameter 3 6 MEM_READ $end
+$var parameter 3 7 MEM_READ_DONE $end
+$var parameter 3 8 MEM_WRITE $end
+$var parameter 3 9 MEM_WRITE_DONE $end
 $var parameter 32 : address_size $end
 $var parameter 32 ; c_block_size $end
 $var parameter 32 < c_line_size $end
 $var parameter 32 = mem_line_size $end
-$var reg 4 > byte_read_count [3:0] $end
+$var reg 2 > byte_read_count [1:0] $end
 $var reg 128 ? data_to_be_write [127:0] $end
 $var reg 1 ' m_busywait_o $end
-$var reg 2 @ m_n_state [1:0] $end
+$var reg 3 @ m_n_state [2:0] $end
 $var reg 128 A m_read_data_o [127:0] $end
 $var reg 1 " m_read_done $end
-$var reg 2 B m_state [1:0] $end
+$var reg 3 B m_state [2:0] $end
 $var reg 1 ! m_write_done $end
 $upscope $end
 $scope module mycache $end
@@ -120,122 +120,152 @@ $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 e \valid_bit_frm_c[0] $end
+$var reg 3 e \c_usability_bit[37] [2:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 f \valid_bit_frm_c[1] $end
+$var reg 1 f \c_dirty_bit[37] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 g \valid_bit_frm_c[2] $end
+$var reg 1 g \valid_bit_frm_c[0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 h \valid_bit_frm_c[3] $end
+$var reg 1 h \valid_bit_frm_c[1] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 128 i \tag_frm_c[0] [127:0] $end
+$var reg 1 i \valid_bit_frm_c[2] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 128 j \tag_frm_c[1] [127:0] $end
+$var reg 1 j \valid_bit_frm_c[3] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 128 k \tag_frm_c[2] [127:0] $end
+$var reg 24 k \tag_frm_c[0] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 128 l \tag_frm_c[3] [127:0] $end
+$var reg 24 l \tag_frm_c[1] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 m \hit_frm_c[0] $end
+$var reg 24 m \tag_frm_c[2] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 n \hit_frm_c[1] $end
+$var reg 24 n \tag_frm_c[3] [23:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 o \hit_frm_c[2] $end
+$var reg 1 o \hit_frm_c[0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 p \hit_frm_c[3] $end
+$var reg 1 p \hit_frm_c[1] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 q \hit_frm_c_AND_valid_bit_frm_c[0] $end
+$var reg 1 q \hit_frm_c[2] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 r \hit_frm_c_AND_valid_bit_frm_c[1] $end
+$var reg 1 r \hit_frm_c[3] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 s \hit_frm_c_AND_valid_bit_frm_c[2] $end
+$var reg 1 s \hit_frm_c_AND_valid_bit_frm_c[0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 1 t \hit_frm_c_AND_valid_bit_frm_c[3] $end
+$var reg 1 t \hit_frm_c_AND_valid_bit_frm_c[1] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 u \data_frm_c[0] [31:0] $end
+$var reg 1 u \hit_frm_c_AND_valid_bit_frm_c[2] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 v \data_frm_c[1] [31:0] $end
+$var reg 1 v \hit_frm_c_AND_valid_bit_frm_c[3] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 w \data_frm_c[2] [31:0] $end
+$var reg 32 w \data_frm_c[0] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 32 x \data_frm_c[3] [31:0] $end
+$var reg 32 x \data_frm_c[1] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 3 y \usability_bit_frm_c[0] [2:0] $end
+$var reg 32 y \data_frm_c[2] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 3 z \usability_bit_frm_c[1] [2:0] $end
+$var reg 32 z \data_frm_c[3] [31:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 3 { \usability_bit_frm_c[2] [2:0] $end
+$var reg 3 { \usability_bit_frm_c[0] [2:0] $end
 $upscope $end
 $upscope $end
 $scope module testcache $end
 $scope module mycache $end
-$var reg 3 | \usability_bit_frm_c[3] [2:0] $end
+$var reg 3 | \usability_bit_frm_c[1] [2:0] $end
+$upscope $end
+$upscope $end
+$scope module testcache $end
+$scope module mycache $end
+$var reg 3 } \usability_bit_frm_c[2] [2:0] $end
+$upscope $end
+$upscope $end
+$scope module testcache $end
+$scope module mycache $end
+$var reg 3 ~ \usability_bit_frm_c[3] [2:0] $end
+$upscope $end
+$upscope $end
+$scope module testcache $end
+$scope module mycache $end
+$var reg 1 !" \dirty_bit_frm_c[0] $end
+$upscope $end
+$upscope $end
+$scope module testcache $end
+$scope module mycache $end
+$var reg 1 "" \dirty_bit_frm_c[1] $end
+$upscope $end
+$upscope $end
+$scope module testcache $end
+$scope module mycache $end
+$var reg 1 #" \dirty_bit_frm_c[2] $end
+$upscope $end
+$upscope $end
+$scope module testcache $end
+$scope module mycache $end
+$var reg 1 $" \dirty_bit_frm_c[3] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
@@ -256,9 +286,9 @@ b100000 =
 b100000 <
 b10 ;
 b100000 :
-b1100100 9
-b1010 8
-b1011 7
+b100 9
+b10 8
+b11 7
 b1 6
 b0 5
 b100000 -
@@ -267,30 +297,36 @@ b100000 +
 $end
 #0
 $dumpvars
+x$"
+x#"
+x""
+x!"
+bx ~
+bx }
 bx |
 bx {
 bx z
 bx y
 bx x
 bx w
-bx v
-bx u
+xv
+xu
 xt
 xs
 xr
 xq
 xp
 xo
-xn
-xm
+bx n
+bx m
 bx l
 bx k
-bx j
-bx i
+xj
+xi
 xh
 xg
 xf
-xe
+bx e
 bx d
 bx c
 bx b
@@ -307,7 +343,7 @@ xX
 bx W
 xV
 bx J
-bx I
+b0xxxxxxxxxxxxxxxxxxxxxxxx I
 bx H
 bx G
 bx F
@@ -344,33 +380,44 @@ $end
 0*
 b0 [
 b0 \
+0"
+0!
+0'
+bx ~
+bx z
+xv
+1r
+x$"
+bx n
+xj
+bx }
+bx y
+xu
+1q
+x#"
+bx m
+xi
 bx |
 bx x
 xt
 1p
-b0xxxxxxxxxxxxxxxxxxxxxxxx l
+x""
+bx l
 xh
 bx {
 bx w
 xs
 1o
-b0xxxxxxxxxxxxxxxxxxxxxxxx k
+x!"
+bx k
 xg
-bx z
-bx v
-xr
-1n
-b0xxxxxxxxxxxxxxxxxxxxxxxx j
-xf
-bx y
-bx u
-xq
-1m
-b0xxxxxxxxxxxxxxxxxxxxxxxx i
-xe
 0X
+b0 @
+b0 B
+b0 e
+0f
 b0 c
-bx0000 d
+b0 d
 0a
 b0 b
 0`
@@ -386,114 +433,184 @@ b1 [
 b0 I
 0E
 b0 _
-b1000000000000000000000011000 (
-b1000000000000000000000011000 4
-b1000000000000000000000011000 Y
-b0 |
-bx x
-0t
-0p
-b0 l
-0h
-b0 {
-bx w
-0s
-0o
-b0 k
-0g
-b0 z
-bx v
-0r
-0n
-b0 j
-0f
-b0 y
-bx u
-0q
-0m
-b0 i
-0e
-b100 ]
-b1000000000000000000000011000 J
-b10 G
-b1000 H
-b100000000000000000000001 F
-00
-1/
-b10000000000000000000000110001010 .
-b10000000000000000000000110001010 C
-#10000
-11
-#15000
-1%
-1*
-b1 \
-01
-#17000
 b0 (
 b0 4
 b0 Y
+b0 ~
+b0 z
+0v
+1r
+0$"
+b0 n
+0j
+b0 }
+b0 y
+0u
+1q
+0#"
+b0 m
+0i
 b0 |
-bx0000 x
+b0 x
 0t
 1p
+0""
 b0 l
 0h
 b0 {
-bx0000 w
+b0 w
 0s
 1o
+0!"
 b0 k
 0g
-b0 z
-bx0000 v
-0r
-1n
-b0 j
-0f
-b0 y
-bx0000 u
-0q
-1m
-b0 i
-0e
 b100 ]
 b0 J
-b0 G
+b10 G
 b0 H
 b0 F
+00
+1/
+b1010 .
+b1010 C
+#10000
+b1 @
+1%
+1*
+b1 \
+b0 >
+11
+#15000
+01
+#17000
+b0 ~
+b0 z
+0v
+1r
+0$"
+b0 n
+0j
+b0 }
+b0 y
+0u
+1q
+0#"
+b0 m
+0i
+b0 |
+b0 x
+0t
+1p
+0""
+b0 l
+0h
+b0 {
+b0 w
+0s
+1o
+0!"
+b0 k
+0g
+b100 ]
+b0 G
 b10 .
 b10 C
 #20000
+1'
+b1 B
 11
 #25000
 01
-#27000
-0%
-0*
-b0 \
-b0 c
-bx0000 d
-0a
-b0 b
-0`
-b100 ^
-b10000 ]
-12
 #30000
-0"
-0!
-0'
-b0 >
-bx B
-b0 c
-bx0000 d
-0a
-b0 b
-0`
-b100 ^
-b10000 ]
+b1 >
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx A
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx D
 11
 #35000
 01
-#37000
+#40000
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx A
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx D
+b10 >
+11
+#45000
+01
+#50000
+b11 @
+b11 >
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx &
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx A
+b1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx D
+11
+#55000
+01
+#60000
+0%
+b11 [
+b0 @
+1"
+0'
+b11 B
+b1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001 &
+b1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001 A
+b1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001 D
+b0 >
+11
+#65000
+01
+#70000
+1V
+b0 [
+0"
+b11 \
+b0 B
+11
+#75000
+01
+#80000
+0V
+0*
+b0 \
+b1 _
+b0 ~
+b0 z
+0v
+1r
+0$"
+b0 n
+0j
+b0 }
+b0 y
+0u
+1q
+0#"
+b0 m
+0i
+b0 |
+b0 x
+0t
+1p
+0""
+b0 l
+0h
+b1 )
+b1 W
+1X
+b100 {
+b1 w
+1s
+1o
+0!"
+b0 k
+1g
+b100 ]
+11
+#85000
+01
+#90000
+11
+#95000
+01
+#97000

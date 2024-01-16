@@ -12,7 +12,7 @@ module memory (
     output reg m_busywait_o;
     output reg m_write_done, m_read_done;
 
-    reg [c_block_size + 1:0] byte_read_count;
+    reg [c_block_size - 1:0] byte_read_count;
 
     reg [mem_line_size - 1:0] memory [0:2047];
 
@@ -43,19 +43,19 @@ module memory (
     //     if(m_busywait_o) byte_read_count = byte_read_count + 1;
     // end
 
-    parameter IDLE = 000, MEM_READ = 001, MEM_WRITE = 010, MEM_READ_DONE = 011, ME_WRITE_DONE = 100;
+    parameter IDLE = 3'b000, MEM_READ = 3'b001, MEM_WRITE = 3'b010, MEM_READ_DONE = 3'b011, MEM_WRITE_DONE = 3'b100;
 
-    reg [1:0] m_state, m_n_state;
+    reg [2:0] m_state, m_n_state;
     //control signals based on state
     always @(*) begin
         case (m_state)
             IDLE: begin
-                m_busywait_o = 0;
+                m_busywait_o = 1'b0;
                 m_write_done = 1'b0;
                 m_read_done = 1'b0;
             end
             MEM_READ: begin
-                m_busywait_o = 1;
+                m_busywait_o = 1'b1;
                 m_write_done = 1'b0;
                 m_read_done = 1'b0;
                 // m_read_data_o[mem_line_size * byte_read_count - 1 : mem_line_size * (byte_read_count - 1)] = memory[{m_addr_i, byte_read_count}];
@@ -63,28 +63,32 @@ module memory (
 
             end
             MEM_WRITE: begin
-                m_busywait_o = 1;
+                m_busywait_o = 1'b1;
                 m_write_done = 1'b0;
                 m_read_done = 1'b0;
                 // memory[{m_addr_i, byte_read_count}] = m_wr_data_i[mem_line_size * byte_read_count - 1 : mem_line_size * (byte_read_count - 1)];
             end
             MEM_READ_DONE: begin
+                m_busywait_o = 1'b0;
+                m_write_done = 1'b0;
                 m_read_done = 1'b1;
             end
-            MEM_READ_DONE: begin
+            MEM_WRITE_DONE: begin
+                m_busywait_o = 1'b0;
                 m_write_done = 1'b1;
+                m_read_done = 1'b0;
             end
         endcase
     end
 
-    always @(negedge m_clk_i) begin
+    always @(posedge m_clk_i) begin
         case (m_state)
             IDLE: begin
                 data_to_be_write = m_wr_data_i;
             end
             MEM_READ: begin
+                m_read_data_o = m_read_data_o >> mem_line_size;
                 m_read_data_o[2**c_block_size*c_line_size - 1 : 2**c_block_size*c_line_size - mem_line_size] = memory[{m_addr_i, byte_read_count}];
-                m_read_data_o = m_read_data_o << mem_line_size;
             end
             MEM_WRITE: begin
                 memory[{m_addr_i, byte_read_count}] = data_to_be_write[mem_line_size - 1:0];
@@ -96,7 +100,7 @@ module memory (
     end
 
     //state transission
-    always @(posedge m_clk_i) begin
+    always @(*) begin
         case (m_state)
             IDLE: begin
                 if(m_read_i) m_n_state = MEM_READ;
@@ -106,12 +110,12 @@ module memory (
                 if(&byte_read_count) m_n_state = MEM_READ_DONE;
             end
             MEM_WRITE: begin
-                if(&byte_read_count) m_n_state = ME_WRITE_DONE;
+                if(&byte_read_count) m_n_state = MEM_WRITE_DONE;
             end
             MEM_READ_DONE: begin
                 m_n_state = IDLE;
             end
-            ME_WRITE_DONE: begin
+            MEM_WRITE_DONE: begin
                 m_n_state = IDLE;
             end
 
@@ -119,9 +123,12 @@ module memory (
     end
 
     //change state
-    always @(posedge m_clk_i) begin
-        if (m_reset_i) m_state = IDLE;
-        m_state <= m_n_state;
+    always @(posedge m_clk_i, posedge m_reset_i) begin
+        if (m_reset_i) begin
+            m_state = IDLE;
+            m_n_state = IDLE;
+        end
+        else m_state <= m_n_state;
     end
 
 
@@ -131,6 +138,8 @@ module memory (
             IDLE: byte_read_count = 0;
             MEM_READ: byte_read_count = byte_read_count + 1;
             MEM_WRITE: byte_read_count = byte_read_count + 1;
+            MEM_READ_DONE: byte_read_count = 0;
+            MEM_WRITE_DONE: byte_read_count = 0;
         endcase
     end
     

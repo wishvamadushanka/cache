@@ -50,6 +50,10 @@ module testcache;
 
         $dumpvars(0, mycache.c_word[9][1]);
 
+        $dumpvars(0, mycache.c_usability_bit[9][1]);
+
+        $dumpvars(0, mycache.c_dirty_bit[9][1]);
+
         $dumpvars(0, mycache.valid_bit_frm_c[0]);
         $dumpvars(0, mycache.valid_bit_frm_c[1]);
         $dumpvars(0, mycache.valid_bit_frm_c[2]);
@@ -80,6 +84,11 @@ module testcache;
         $dumpvars(0, mycache.usability_bit_frm_c[2]);
         $dumpvars(0, mycache.usability_bit_frm_c[3]);
 
+        $dumpvars(0, mycache.dirty_bit_frm_c[0]);
+        $dumpvars(0, mycache.dirty_bit_frm_c[1]);
+        $dumpvars(0, mycache.dirty_bit_frm_c[2]);
+        $dumpvars(0, mycache.dirty_bit_frm_c[3]);
+
         // for(i = 0; i < 2; i = i + 1)begin
         //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
         //     $dumpvars(0, mycache.valid_bit_frm_c[i]);
@@ -108,7 +117,7 @@ module testcache;
         reset <= 1'b0;
 
         #5 
-        address <= 32'b100000000000000000000001_1000_10_10;
+        address <= 32'b000000000000000000000000_0000_10_10;
 
         c_read_i <= 1'b1;
 
@@ -118,8 +127,14 @@ module testcache;
         address <= 32'd2;
 
         #10
-        reset <= 1'b1;
+        // reset <= 1'b1;
 
+        #10
+        #10
+        #10
+        #10
+        #10
+        #10
         #10
 
         $finish;

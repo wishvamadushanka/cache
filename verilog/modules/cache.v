@@ -35,8 +35,11 @@ module cache (
     wire [c_tag_size - 1:0] tag_addr;
 
 
-    reg valid_bit_frm_c [0 : (2**c_assiotivity) - 1], hit_frm_c [0 : (2**c_assiotivity) - 1], hit_frm_c_AND_valid_bit_frm_c [0 : (2**c_assiotivity) - 1], dirty_bit_frm_c [0 : (2**c_assiotivity) - 1];
-    reg [2**c_block_size*c_line_size - 1 : 0] tag_frm_c [0 : (2**c_assiotivity) - 1];
+    reg valid_bit_frm_c [0 : (2**c_assiotivity) - 1];
+    reg hit_frm_c [0 : (2**c_assiotivity) - 1];
+    reg hit_frm_c_AND_valid_bit_frm_c [0 : (2**c_assiotivity) - 1];
+    reg dirty_bit_frm_c [0 : (2**c_assiotivity) - 1];
+    reg [c_tag_size - 1 : 0] tag_frm_c [0 : (2**c_assiotivity) - 1];
     reg [c_line_size - 1 : 0] data_frm_c [0 : (2**c_assiotivity) - 1];
     reg [2:0] usability_bit_frm_c [0 : (2**c_assiotivity) - 1];
 
@@ -61,7 +64,11 @@ module cache (
 
     //address for data memeory
     assign c_m_address_read = {address_i[address_size : c_block_size + 2]};
+
     assign c_m_address_wr = tag_frm_c[less_used_assiotivity];
+
+    //data for mem write
+    // assign c_m_write_data_o = data_frm_c[less_used_assiotivity];
 
 
     //read data, valid bit, check tag == cache tag from cache sets
@@ -117,10 +124,10 @@ module cache (
             for (i = 0; i < 2**c_index; i = i + 1) begin
                 for (j = 0; j < 2**c_assiotivity; j = j + 1) begin
                     c_valid_bit[i][j] = 0;
-                    c_word[i][j][0] = 0;
-                    c_word[i][j][1] = 0;
-                    c_word[i][j][2] = 0;
-                    c_word[i][j][3] = 0;
+                    c_word[i][j] = 0;
+                    // c_word[i][j][1] = 0;
+                    // c_word[i][j][2] = 0;
+                    // c_word[i][j][3] = 0;
                     c_tag[i][j] = 0;
                     c_dirty_bit[i][j] = 0;
                     c_usability_bit[i][j] = 0;
@@ -132,15 +139,18 @@ module cache (
             //need to integreate
             // for (i = 0; i < 2**c_index; i = i + 1) begin
             //     for (j = 0; j < 2**c_assiotivity; j = j + 1) begin
-            //         c_valid_bit[9][1] = 1;
+            //         c_valid_bit[9][1] = 0;
+            //         c_dirty_bit[9][1] = 1;
             //         c_tag[9][1] = 24'h800001;
-            //         c_word[9][1][1] = 32'b11;
+            //         c_word[9][1][95:64] = 32'd11;
+            //         c_word[9][0][95:63] = 32'd11;
             //         c_usability_bit[9][0] = 3'd1;
             //         c_usability_bit[9][1] = 3'd2;
             //         c_usability_bit[9][2] = 3'd1;
             //         c_usability_bit[9][3] = 3'd4;
             //     end
             // end
+
             if(c_allow_wr) begin
                 c_valid_bit[index_addr][less_used_assiotivity] = 1'b1;
                 c_tag[index_addr][less_used_assiotivity] = c_m_address_read;
@@ -205,7 +215,7 @@ module cache (
             end
             MEM_READ: begin
                 c_busywait_o <= 1'b1;
-                c_m_read_o <= 1'b1;
+                c_m_read_o <= m_read_done ? 1'b0 : 1'b1;
                 c_m_wr_o <= 1'b0;
                 c_allow_wr <= 1'b0;
                 c_m_address_o = c_m_address_read;
@@ -213,21 +223,22 @@ module cache (
             MEM_WRITE: begin
                 c_busywait_o <= 1'b1;
                 c_m_read_o <= 1'b0;
-                c_m_wr_o <= 1'b1;
+                c_m_wr_o <= m_write_done ? 1'b0 : 1'b1;;
                 c_allow_wr <= 1'b0;
                 c_m_address_o = c_m_address_wr;
+                c_m_write_data_o = data_frm_c[less_used_assiotivity];
             end
             MEM_READ_DONE: begin
                 c_busywait_o <= 1'b1;
                 c_m_read_o <= 1'b0;
-                c_m_wr_o <= 1'b1;
+                c_m_wr_o <= 1'b0;
                 c_allow_wr <= 1'b1;
                 c_m_address_o = c_m_address_read;
             end
             MEM_WRITE_DONE: begin
                 c_busywait_o <= 1'b1;
                 c_m_read_o <= 1'b0;
-                c_m_wr_o <= 1'b1;
+                c_m_wr_o <= 1'b0;
                 c_allow_wr <= 1'b0;
                 c_m_address_o = c_m_address_read;
             end
@@ -235,7 +246,7 @@ module cache (
     end
 
     //cache state change
-    always @(negedge clk_i, posedge reset_i) begin
+    always @(posedge clk_i, posedge reset_i) begin
         if (reset_i) c_state <= IDLE;
         else c_state <= c_n_state;
     end
