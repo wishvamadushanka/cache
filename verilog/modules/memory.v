@@ -80,15 +80,20 @@ module memory (
             end
         endcase
     end
-
+    reg [mem_line_size - 1:0] tmp_read_data;
+    // always @(*)begin
+    //     tmp = {m_addr_i, byte_read_count};
+    // end
     always @(posedge m_clk_i) begin
+        #1
         case (m_state)
             IDLE: begin
                 data_to_be_write = m_wr_data_i;
             end
             MEM_READ: begin
-                m_read_data_o = m_read_data_o >> mem_line_size;
-                m_read_data_o[2**c_block_size*c_line_size - 1 : 2**c_block_size*c_line_size - mem_line_size] = memory[{m_addr_i, byte_read_count}];
+                // m_read_data_o = m_read_data_o >> mem_line_size;
+                tmp_read_data = memory[{m_addr_i, byte_read_count}];
+                // m_read_data_o[2**c_block_size*c_line_size - 1 : 2**c_block_size*c_line_size - mem_line_size] = memory[{m_addr_i, byte_read_count}];
             end
             MEM_WRITE: begin
                 memory[{m_addr_i, byte_read_count}] = data_to_be_write[mem_line_size - 1:0];
@@ -127,13 +132,20 @@ module memory (
         if (m_reset_i) begin
             m_state = IDLE;
             m_n_state = IDLE;
+            tmp_read_data = 0;
         end
-        else m_state <= m_n_state;
+        else begin
+            m_state <= m_n_state;
+            
+            m_read_data_o = m_read_data_o >> mem_line_size;
+            m_read_data_o[2**c_block_size*c_line_size - 1 : 2**c_block_size*c_line_size - mem_line_size] = tmp_read_data;
+        end
     end
 
 
     //counter
     always @(posedge m_clk_i) begin
+        // #1
         case (m_state)
             IDLE: byte_read_count = 0;
             MEM_READ: byte_read_count = byte_read_count + 1;

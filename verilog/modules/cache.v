@@ -155,11 +155,20 @@ module cache (
                 c_valid_bit[index_addr][less_used_assiotivity] = 1'b1;
                 c_tag[index_addr][less_used_assiotivity] = c_m_address_read;
                 c_word[index_addr][less_used_assiotivity] = c_m_read_data_i;
+                c_usability_bit[index_addr][less_used_assiotivity] = usability_bit_frm_c[less_used_assiotivity] + 1;
 
-                c_usability_bit[index_addr][less_used_assiotivity] = 3'd1;
-                c_usability_bit[index_addr][less_used_assiotivity] = 3'd2;
-                c_usability_bit[index_addr][less_used_assiotivity] = 3'd1;
-                c_usability_bit[index_addr][less_used_assiotivity] = 3'd4;
+                for (i = 1; i < 2**c_assiotivity; i = i + 1) begin
+                    if(i !== less_used_assiotivity)begin
+                        if (c_usability_bit[index_addr][i] <= 1) begin
+                            c_usability_bit[index_addr][i] = 0;
+                        end
+                        else c_usability_bit[index_addr][i] = c_usability_bit[index_addr][i] - 1;
+                    end
+                end
+
+                // c_usability_bit[index_addr][less_used_assiotivity] = 3'd2;
+                // c_usability_bit[index_addr][less_used_assiotivity] = 3'd1;
+                // c_usability_bit[index_addr][less_used_assiotivity] = 3'd4;
                 // for (i = 0; i < 2**c_block_size; i = i + 1) begin
                 //     c_word[index_addr][less_used_assiotivity][i] = c_m_read_data_i[(i+1)*c_line_size : i*c_line_size];
                 // end
@@ -217,7 +226,7 @@ module cache (
                 c_busywait_o <= 1'b1;
                 c_m_read_o <= m_read_done ? 1'b0 : 1'b1;
                 c_m_wr_o <= 1'b0;
-                c_allow_wr <= 1'b0;
+                c_allow_wr <= m_read_done ? 1'b1 : 1'b0;
                 c_m_address_o = c_m_address_read;
             end
             MEM_WRITE: begin
@@ -232,7 +241,7 @@ module cache (
                 c_busywait_o <= 1'b1;
                 c_m_read_o <= 1'b0;
                 c_m_wr_o <= 1'b0;
-                c_allow_wr <= 1'b1;
+                c_allow_wr <= 1'b0;
                 c_m_address_o = c_m_address_read;
             end
             MEM_WRITE_DONE: begin

@@ -42,17 +42,18 @@ module testcache;
         //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
         //     $dumpvars(0, mycache.c_valid_bit[9][i]);
         // end
-        $dumpvars(0, mycache.c_valid_bit[9][0]);
-        $dumpvars(0, mycache.c_valid_bit[9][1]);
+        $dumpvars(0, mycache.c_valid_bit[0][0]);
+        $dumpvars(0, mycache.c_valid_bit[0][1]);
 
-        $dumpvars(0, mycache.c_tag[9][0]);
-        $dumpvars(0, mycache.c_tag[9][1]);
+        $dumpvars(0, mycache.c_tag[0][0]);
+        $dumpvars(0, mycache.c_tag[0][1]);
 
-        $dumpvars(0, mycache.c_word[9][1]);
+        $dumpvars(0, mycache.c_word[0][0]);
+        // $dumpvars(0, mycache.c_word[0][1]);
 
-        $dumpvars(0, mycache.c_usability_bit[9][1]);
+        $dumpvars(0, mycache.c_usability_bit[0][1]);
 
-        $dumpvars(0, mycache.c_dirty_bit[9][1]);
+        $dumpvars(0, mycache.c_dirty_bit[0][1]);
 
         $dumpvars(0, mycache.valid_bit_frm_c[0]);
         $dumpvars(0, mycache.valid_bit_frm_c[1]);
@@ -89,6 +90,11 @@ module testcache;
         $dumpvars(0, mycache.dirty_bit_frm_c[2]);
         $dumpvars(0, mycache.dirty_bit_frm_c[3]);
 
+        $dumpvars(0, data_memory.memory[0]);
+        $dumpvars(0, data_memory.memory[1]);
+        $dumpvars(0, data_memory.memory[2]);
+        $dumpvars(0, data_memory.memory[3]);
+
         // for(i = 0; i < 2; i = i + 1)begin
         //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
         //     $dumpvars(0, mycache.valid_bit_frm_c[i]);
@@ -124,7 +130,7 @@ module testcache;
         c_wr_i <= 1'b0;
         
         #10
-        address <= 32'd2;
+        // address <= 32'd2;
 
         #10
         // reset <= 1'b1;
