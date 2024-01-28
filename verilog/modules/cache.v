@@ -14,7 +14,7 @@ module cache (
 
     //for data memory from cache
     output reg c_m_read_o, c_m_wr_o;
-    output reg [2**c_block_size*c_line_size - 1:0] c_m_write_data_o;
+    output  [2**c_block_size*c_line_size - 1:0] c_m_write_data_o;
     output reg [address_size - c_block_size - 3:0] c_m_address_o;
     input [2**c_block_size*c_line_size - 1:0] c_m_read_data_i;
     input c_m_busywait_i, m_write_done, m_read_done;
@@ -77,7 +77,7 @@ module cache (
     //address for data memeory
     assign c_m_address_read = {address_i[address_size : c_block_size + 2]};
 
-    assign c_m_address_wr = tag_frm_c[less_used_assiotivity];
+    assign c_m_address_wr = {tag_frm_c[less_used_assiotivity], index_addr};
 
     //data for mem write
     // assign c_m_write_data_o = data_frm_c[less_used_assiotivity];
@@ -169,7 +169,7 @@ module cache (
                 c_dirty_bit[index_addr][less_used_assiotivity] = 0;
                 c_tag[index_addr][less_used_assiotivity] = tag_addr;
                 c_word[index_addr][less_used_assiotivity] = c_m_read_data_i;
-                c_usability_bit[index_addr][less_used_assiotivity] = usability_bit_frm_c[less_used_assiotivity] + 1;
+                c_usability_bit[index_addr][less_used_assiotivity] = 1'b1;
 
                 if(usebility_reduce_en)begin
                     for (i = 0; i < 2**c_assiotivity; i = i + 1) begin
@@ -219,6 +219,7 @@ module cache (
     parameter IDLE = 3'b000, MEM_READ = 3'b001, MEM_WRITE = 3'b010, MEM_READ_DONE = 3'b011, MEM_WRITE_DONE = 3'b100;   //, CACHE_WRITE_BACK = 3'b011;
     reg [2:0] c_state, c_n_state;
     reg c_allow_wr, c_update_en;
+    assign c_m_write_data_o = data_frm_c[less_used_assiotivity];
 
     //state transisstion
     always @(*)
@@ -238,7 +239,7 @@ module cache (
                 if(!c_m_busywait_i && m_read_done) c_n_state = MEM_READ_DONE;
             end
             MEM_WRITE: begin
-                if(!c_m_busywait_i && m_write_done) c_n_state = MEM_WRITE_DONE;
+                if(!c_m_busywait_i && m_write_done) c_n_state = MEM_READ;
             end
             MEM_READ_DONE: begin
                 c_n_state = IDLE;
@@ -272,11 +273,11 @@ module cache (
             MEM_WRITE: begin
                 c_busywait_o <= 1'b1;
                 c_m_read_o <= 1'b0;
-                c_m_wr_o <= m_write_done ? 1'b0 : 1'b1;;
+                c_m_wr_o <= m_write_done ? 1'b0 : 1'b1;
                 c_allow_wr <= 1'b0;
                 c_m_address_o = c_m_address_wr;
                 c_update_en <= 1'b0;
-                c_m_write_data_o = data_frm_c[less_used_assiotivity];
+                // c_m_write_data_o = data_frm_c[less_used_assiotivity];
             end
             MEM_READ_DONE: begin
                 c_busywait_o <= 1'b0;

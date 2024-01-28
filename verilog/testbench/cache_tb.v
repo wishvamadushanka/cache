@@ -255,6 +255,12 @@ module testcache;
         c_wr_i <= 1'b0;
         #160
 
+        address <= 32'b000000000000000000000000010_1_10_10;
+        c_write_data_i <= 32'h30;
+        c_read_i <= 1'b1;
+        c_wr_i <= 1'b0;
+        #160
+
         address <= 32'b000000000000000000000000000_0_10_10;
         c_write_data_i <= 32'd3;
         c_read_i <= 1'b1;
@@ -277,6 +283,8 @@ module testcache;
         #10
         #10
         #10
+
+        $writememh("memory_data_out.hex", data_memory.memory);
 
         $finish;
 

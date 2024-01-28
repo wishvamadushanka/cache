@@ -84,11 +84,29 @@ module memory (
     // always @(*)begin
     //     tmp = {m_addr_i, byte_read_count};
     // end
-    always @(posedge m_clk_i) begin
+
+    always @(posedge m_clk_i, posedge m_reset_i) begin
+        if (m_reset_i) begin
+            m_state = IDLE;
+            // m_n_state = IDLE;
+            tmp_read_data = 0;
+        end
+        else begin
+            m_state <= m_n_state;
+            m_read_data_o = m_read_data_o >> mem_line_size;
+            m_read_data_o[2**c_block_size*c_line_size - 1 : 2**c_block_size*c_line_size - mem_line_size] = tmp_read_data;
+        end
+    end
+    
+    always @(posedge m_clk_i, posedge m_reset_i) begin
+        if (m_reset_i) begin
+            tmp_read_data = 0;
+        end
         #1
         case (m_state)
             IDLE: begin
                 data_to_be_write = m_wr_data_i;
+                // tmp_read_data = 0;
             end
             MEM_READ: begin
                 // m_read_data_o = m_read_data_o >> mem_line_size;
@@ -110,6 +128,7 @@ module memory (
             IDLE: begin
                 if(m_read_i) m_n_state = MEM_READ;
                 else if (m_wr_i) m_n_state = MEM_WRITE;
+                else m_n_state = IDLE;
             end
             MEM_READ: begin
                 if(&byte_read_count) m_n_state = MEM_READ_DONE;
@@ -125,21 +144,6 @@ module memory (
             end
 
         endcase
-    end
-
-    //change state
-    always @(posedge m_clk_i, posedge m_reset_i) begin
-        if (m_reset_i) begin
-            m_state = IDLE;
-            m_n_state = IDLE;
-            tmp_read_data = 0;
-        end
-        else begin
-            m_state <= m_n_state;
-            
-            m_read_data_o = m_read_data_o >> mem_line_size;
-            m_read_data_o[2**c_block_size*c_line_size - 1 : 2**c_block_size*c_line_size - mem_line_size] = tmp_read_data;
-        end
     end
 
 
