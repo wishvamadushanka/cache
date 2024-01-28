@@ -42,85 +42,98 @@ module testcache;
         //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
         //     $dumpvars(0, mycache.c_valid_bit[9][i]);
         // end
-        $dumpvars(0, mycache.c_valid_bit[0][0]);
-        $dumpvars(0, mycache.c_valid_bit[0][1]);
+        ///////////////////////////
+        // $dumpvars(0, mycache.c_valid_bit[0][0]);
+        // $dumpvars(0, mycache.c_valid_bit[0][1]);
 
-        $dumpvars(0, mycache.c_tag[0][0]);
-        $dumpvars(0, mycache.c_tag[0][1]);
+        // $dumpvars(0, mycache.c_tag[0][0]);
+        // $dumpvars(0, mycache.c_tag[0][1]);
 
-        $dumpvars(0, mycache.c_word[0][0]);
+        // $dumpvars(0, mycache.c_word[0][0]);
 
-        // $dumpvars(0, mycache.c_word[0][1]);
-        $dumpvars(0, mycache.c_usability_bit[0][1]);
-        $dumpvars(0, mycache.c_dirty_bit[0][1]);
+        // // $dumpvars(0, mycache.c_word[0][1]);
+        // $dumpvars(0, mycache.c_usability_bit[0][1]);
+        // $dumpvars(0, mycache.c_dirty_bit[0][1]);
+
+///////////////////////////
+        ////////index 1
+    $dumpvars(0, mycache.c_valid_bit[1][0]);
+    $dumpvars(0, mycache.c_valid_bit[1][1]);
+    $dumpvars(0, mycache.c_valid_bit[1][2]);
+    $dumpvars(0, mycache.c_valid_bit[1][3]);
+
+    $dumpvars(0, mycache.c_tag[1][0]);
+    $dumpvars(0, mycache.c_tag[1][1]);
+    $dumpvars(0, mycache.c_tag[1][2]);
+    $dumpvars(0, mycache.c_tag[1][3]);
+
+    $dumpvars(0, mycache.c_word[1][0]);
+    $dumpvars(0, mycache.c_word[1][1]);
+    $dumpvars(0, mycache.c_word[1][2]);
+    $dumpvars(0, mycache.c_word[1][3]);
+    // $dumpvars(0, mycache.c_word[0][1]);
+
+    $dumpvars(0, mycache.c_usability_bit[1][0]);
+    $dumpvars(0, mycache.c_usability_bit[1][1]);
+    $dumpvars(0, mycache.c_usability_bit[1][2]);
+    $dumpvars(0, mycache.c_usability_bit[1][3]);
+
+    $dumpvars(0, mycache.c_dirty_bit[1][0]);
+    $dumpvars(0, mycache.c_dirty_bit[1][1]);
+    $dumpvars(0, mycache.c_dirty_bit[1][2]);
+    $dumpvars(0, mycache.c_dirty_bit[1][3]);
+
+    /////////////////
 
 
-        ////////
+    $dumpvars(0, mycache.valid_bit_frm_c[0]);
+    $dumpvars(0, mycache.valid_bit_frm_c[1]);
+    $dumpvars(0, mycache.valid_bit_frm_c[2]);
+    $dumpvars(0, mycache.valid_bit_frm_c[3]);
 
+    $dumpvars(0, mycache.tag_frm_c[0]);
+    $dumpvars(0, mycache.tag_frm_c[1]);
+    $dumpvars(0, mycache.tag_frm_c[2]);
+    $dumpvars(0, mycache.tag_frm_c[3]);
 
-        $dumpvars(0, mycache.c_valid_bit[1][0]);
-        $dumpvars(0, mycache.c_valid_bit[1][1]);
+    $dumpvars(0, mycache.hit_frm_c[0]);
+    $dumpvars(0, mycache.hit_frm_c[1]);
+    $dumpvars(0, mycache.hit_frm_c[2]);
+    $dumpvars(0, mycache.hit_frm_c[3]);
 
-        $dumpvars(0, mycache.c_tag[1][0]);
-        $dumpvars(0, mycache.c_tag[1][1]);
+    $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[0]);
+    $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[1]);
+    $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[2]);
+    $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[3]);
 
-        $dumpvars(0, mycache.c_word[1][0]);
-        // $dumpvars(0, mycache.c_word[0][1]);
+    $dumpvars(0, mycache.data_frm_c[0]);
+    $dumpvars(0, mycache.data_frm_c[1]);
+    $dumpvars(0, mycache.data_frm_c[2]);
+    $dumpvars(0, mycache.data_frm_c[3]);
 
-        $dumpvars(0, mycache.c_usability_bit[1][1]);
+    $dumpvars(0, mycache.usability_bit_frm_c[0]);
+    $dumpvars(0, mycache.usability_bit_frm_c[1]);
+    $dumpvars(0, mycache.usability_bit_frm_c[2]);
+    $dumpvars(0, mycache.usability_bit_frm_c[3]);
 
-        $dumpvars(0, mycache.c_dirty_bit[1][1]);
-        /////////////////
+    $dumpvars(0, mycache.dirty_bit_frm_c[0]);
+    $dumpvars(0, mycache.dirty_bit_frm_c[1]);
+    $dumpvars(0, mycache.dirty_bit_frm_c[2]);
+    $dumpvars(0, mycache.dirty_bit_frm_c[3]);
 
+    $dumpvars(0, data_memory.memory[0]);
+    $dumpvars(0, data_memory.memory[1]);
+    $dumpvars(0, data_memory.memory[2]);
+    $dumpvars(0, data_memory.memory[3]);
 
-        $dumpvars(0, mycache.valid_bit_frm_c[0]);
-        $dumpvars(0, mycache.valid_bit_frm_c[1]);
-        $dumpvars(0, mycache.valid_bit_frm_c[2]);
-        $dumpvars(0, mycache.valid_bit_frm_c[3]);
-
-        $dumpvars(0, mycache.tag_frm_c[0]);
-        $dumpvars(0, mycache.tag_frm_c[1]);
-        $dumpvars(0, mycache.tag_frm_c[2]);
-        $dumpvars(0, mycache.tag_frm_c[3]);
-
-        $dumpvars(0, mycache.hit_frm_c[0]);
-        $dumpvars(0, mycache.hit_frm_c[1]);
-        $dumpvars(0, mycache.hit_frm_c[2]);
-        $dumpvars(0, mycache.hit_frm_c[3]);
-
-        $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[0]);
-        $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[1]);
-        $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[2]);
-        $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[3]);
-
-        $dumpvars(0, mycache.data_frm_c[0]);
-        $dumpvars(0, mycache.data_frm_c[1]);
-        $dumpvars(0, mycache.data_frm_c[2]);
-        $dumpvars(0, mycache.data_frm_c[3]);
-
-        $dumpvars(0, mycache.usability_bit_frm_c[0]);
-        $dumpvars(0, mycache.usability_bit_frm_c[1]);
-        $dumpvars(0, mycache.usability_bit_frm_c[2]);
-        $dumpvars(0, mycache.usability_bit_frm_c[3]);
-
-        $dumpvars(0, mycache.dirty_bit_frm_c[0]);
-        $dumpvars(0, mycache.dirty_bit_frm_c[1]);
-        $dumpvars(0, mycache.dirty_bit_frm_c[2]);
-        $dumpvars(0, mycache.dirty_bit_frm_c[3]);
-
-        $dumpvars(0, data_memory.memory[0]);
-        $dumpvars(0, data_memory.memory[1]);
-        $dumpvars(0, data_memory.memory[2]);
-        $dumpvars(0, data_memory.memory[3]);
-
-        // for(i = 0; i < 2; i = i + 1)begin
-        //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
-        //     $dumpvars(0, mycache.valid_bit_frm_c[i]);
-        //     $dumpvars(0, mycache.tag_frm_c[i]);
-        //     $dumpvars(0, mycache.hit_frm_c[i]);
-        //     $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[i]);
-        //     $dumpvars(0, mycache.data_frm_c[i]);
-        // end
+    // for(i = 0; i < 2; i = i + 1)begin
+    //     // $dumpvars(0, mycache.c_valid_bit[1][i]);
+    //     $dumpvars(0, mycache.valid_bit_frm_c[i]);
+    //     $dumpvars(0, mycache.tag_frm_c[i]);
+    //     $dumpvars(0, mycache.hit_frm_c[i]);
+    //     $dumpvars(0, mycache.hit_frm_c_AND_valid_bit_frm_c[i]);
+    //     $dumpvars(0, mycache.data_frm_c[i]);
+    // end
         
 	end
 
@@ -165,19 +178,54 @@ module testcache;
 
 
         #10
-        address <= 32'b000000000000000000000000_0001_10_10;
-        c_write_data_i <= 32'd3;
+        address <= 32'b000000000000000000000000000_1_10_10;
+        c_write_data_i <= 32'h38;
         c_read_i <= 1'b0;
         c_wr_i <= 1'b1;
 
         #9
-        address <= 32'b000000000000000000000000_0001_10_10;
+        address <= 32'b000000000000000000000000000_1_11_10;
         c_write_data_i <= 32'd3;
         c_read_i <= 1'b0;
-        c_wr_i <= 1'b0;
+        c_wr_i <= 1'b1;
 
 
         #10
+        address <= 32'b000000000000000000000000000_1_00_10;
+        c_write_data_i <= 32'd5;
+        c_read_i <= 1'b0;
+        c_wr_i <= 1'b1;
+
+        ////
+        //cache write through index
+
+        #10
+        address <= 32'b000000000000000000000000001_1_10_10;
+        c_write_data_i <= 32'd3;
+        c_read_i <= 1'b1;
+        c_wr_i <= 1'b0;
+
+        /////
+
+        #80
+        address <= 32'b000000000000000000000000010_1_10_10;
+        c_write_data_i <= 32'd3;
+        c_read_i <= 1'b1;
+        c_wr_i <= 1'b0;
+
+        #80
+        address <= 32'b000000000000000000000000011_1_10_10;
+        c_write_data_i <= 32'd3;
+        c_read_i <= 1'b1;
+        c_wr_i <= 1'b0;
+
+        #80
+        address <= 32'b000000000000000000000000000_0_10_10;
+        c_write_data_i <= 32'd3;
+        c_read_i <= 1'b1;
+        c_wr_i <= 1'b0;
+
+        
         // reset <= 1'b1;
 
         #10
