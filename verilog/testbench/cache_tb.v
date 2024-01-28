@@ -163,13 +163,14 @@ module testcache;
         c_read_i <= 1'b0;
         c_wr_i <= 1'b0;
 
+
         #10
         address <= 32'b000000000000000000000000_0001_10_10;
         c_write_data_i <= 32'd3;
         c_read_i <= 1'b0;
         c_wr_i <= 1'b1;
 
-        #10
+        #9
         address <= 32'b000000000000000000000000_0001_10_10;
         c_write_data_i <= 32'd3;
         c_read_i <= 1'b0;

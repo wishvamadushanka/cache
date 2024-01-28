@@ -49,10 +49,12 @@ module cache (
 
     reg [c_assiotivity - 1:0] c_hit_set_place;
     reg [2**c_block_size*c_line_size - 1:0] c_write_data_pre;
-    reg [2**c_block_size*c_line_size - 1:0] c_write_data_pre_all_;
+    reg [2**c_block_size*c_line_size - 1:0] c_write_data_pre_all_, c_block_data_with_mask, tmp;
 
     always @(*) begin
-        c_write_data_pre = c_write_data_pre_all_ ^ c_write_data_i << (offset_addr * c_line_size); 
+        c_block_data_with_mask = c_word[index_addr][c_hit_set_place] & ~({c_line_size{1'b1}} << (offset_addr * c_line_size));
+        c_write_data_pre = c_write_data_pre_all_ ^ c_write_data_i << (offset_addr * c_line_size);
+        tmp = c_block_data_with_mask | c_write_data_pre;
         
     end
 
@@ -151,6 +153,7 @@ module cache (
 
             if(c_allow_wr) begin
                 c_valid_bit[index_addr][less_used_assiotivity] = 1'b1;
+                c_dirty_bit[i][j] = 0;
                 c_tag[index_addr][less_used_assiotivity] = tag_addr;
                 c_word[index_addr][less_used_assiotivity] = c_m_read_data_i;
                 c_usability_bit[index_addr][less_used_assiotivity] = usability_bit_frm_c[less_used_assiotivity] + 1;
@@ -173,8 +176,14 @@ module cache (
 
             end
             else if (c_update_en) begin
-                c_word[index_addr][c_hit_set_place] = c_word[index_addr][c_hit_set_place] ^ ;
+                c_word[index_addr][c_hit_set_place] = c_block_data_with_mask | c_write_data_pre;
                 c_usability_bit[index_addr][c_hit_set_place] = usability_bit_frm_c[c_hit_set_place] + 1;
+                c_dirty_bit[index_addr][c_hit_set_place] = 1;
+
+                // c_valid_bit[index_addr][less_used_assiotivity] = 1'b1;
+                // c_tag[index_addr][less_used_assiotivity] = tag_addr;
+                // c_word[index_addr][less_used_assiotivity] = c_m_read_data_i;
+                // c_usability_bit[index_addr][less_used_assiotivity] = usability_bit_frm_c[less_used_assiotivity] + 1;
                 // c_dirty_bit[index_addr][]
 
                 for (i = 1; i < 2**c_assiotivity; i = i + 1) begin
@@ -276,8 +285,12 @@ module cache (
         if (reset_i) begin
             c_state <= IDLE;
             c_write_data_pre_all_ = 0;
+
         end
-        else c_state <= c_n_state;
+        else begin
+            c_state <= c_n_state;
+            // c_write_data_pre_all_ = c_write_data_pre_all_;
+        end
     end
 
 endmodule
