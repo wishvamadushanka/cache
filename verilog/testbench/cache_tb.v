@@ -218,8 +218,43 @@ module testcache;
         c_write_data_i <= 32'd3;
         c_read_i <= 1'b1;
         c_wr_i <= 1'b0;
-
         #80
+
+        //make dirty cache index 1
+        // #10
+        address <= 32'b000000000000000000000000011_1_10_10;
+        c_write_data_i <= 32'h32;
+        c_read_i <= 1'b0;
+        c_wr_i <= 1'b1;
+        #10
+
+        // #10
+        address <= 32'b000000000000000000000000010_1_10_10;
+        c_write_data_i <= 32'h31;
+        c_read_i <= 1'b0;
+        c_wr_i <= 1'b1;
+        #10
+
+        address <= 32'b000000000000000000000000001_1_10_10;
+        c_write_data_i <= 32'h30;
+        c_read_i <= 1'b0;
+        c_wr_i <= 1'b1;
+        #10
+
+        // #10
+        // address <= 32'b000000000000000000000000001_1_10_10;
+        // c_write_data_i <= 32'h30;
+        // c_read_i <= 1'b0;
+        c_wr_i <= 1'b0;
+
+        //cache replace
+        #50
+        address <= 32'b000000000000000000000000100_1_10_10;
+        c_write_data_i <= 32'd3;
+        c_read_i <= 1'b1;
+        c_wr_i <= 1'b0;
+        #160
+
         address <= 32'b000000000000000000000000000_0_10_10;
         c_write_data_i <= 32'd3;
         c_read_i <= 1'b1;

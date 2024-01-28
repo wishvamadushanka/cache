@@ -41,7 +41,7 @@ module cache (
     reg hit_frm_c_AND_valid_bit_frm_c [0 : (2**c_assiotivity) - 1];
     reg dirty_bit_frm_c [0 : (2**c_assiotivity) - 1];
     reg [c_tag_size - 1 : 0] tag_frm_c [0 : (2**c_assiotivity) - 1];
-    reg [c_line_size - 1 : 0] data_frm_c [0 : (2**c_assiotivity) - 1];
+    reg [2**c_block_size*c_line_size - 1:0] data_frm_c [0 : (2**c_assiotivity) - 1];
     reg [2:0] usability_bit_frm_c [0 : (2**c_assiotivity) - 1];
 
     // reg [c_assiotivity - 1 : 0] hit_cache_assiotivity;
@@ -99,13 +99,13 @@ module cache (
             dirty_bit_frm_c[i] = c_dirty_bit[index_addr][i];
             hit_frm_c[i] = (tag_addr === tag_frm_c[i]) ? 1'b1 : 1'b0;
             hit_frm_c_AND_valid_bit_frm_c[i] = valid_bit_frm_c[i] && hit_frm_c[i];
-            data_frm_c[i] = c_word[index_addr][i] >> (offset_addr * c_line_size);
+            data_frm_c[i] = c_word[index_addr][i];
             usability_bit_frm_c[i] = c_usability_bit[index_addr][i];
 
             if (hit_frm_c_AND_valid_bit_frm_c[i]) begin
                 c_hit = 1'b1;
                 c_hit_set_place = i;
-                c_data_o = data_frm_c[i];
+                c_data_o = data_frm_c[i] >> (offset_addr * c_line_size);
             end
         end
     end
@@ -166,7 +166,7 @@ module cache (
 
             if(c_allow_wr) begin
                 c_valid_bit[index_addr][less_used_assiotivity] = 1'b1;
-                c_dirty_bit[i][j] = 0;
+                c_dirty_bit[index_addr][less_used_assiotivity] = 0;
                 c_tag[index_addr][less_used_assiotivity] = tag_addr;
                 c_word[index_addr][less_used_assiotivity] = c_m_read_data_i;
                 c_usability_bit[index_addr][less_used_assiotivity] = usability_bit_frm_c[less_used_assiotivity] + 1;
@@ -174,10 +174,10 @@ module cache (
                 if(usebility_reduce_en)begin
                     for (i = 0; i < 2**c_assiotivity; i = i + 1) begin
                         if(i !== less_used_assiotivity)begin
-                            if (c_usability_bit[index_addr][i] <= 1) begin
-                                c_usability_bit[index_addr][i] = 0;
+                            if (c_usability_bit[index_addr][i] > 0) begin
+                                c_usability_bit[index_addr][i] = c_usability_bit[index_addr][i] - 1;
                             end
-                            else c_usability_bit[index_addr][i] = c_usability_bit[index_addr][i] - 1;
+                            // else c_usability_bit[index_addr][i] = c_usability_bit[index_addr][i] - 1;
                         end
                     end
                 end
@@ -203,7 +203,7 @@ module cache (
 
                 if(usebility_reduce_en)begin
                     for (i = 0; i < 2**c_assiotivity; i = i + 1) begin
-                        if(i !== less_used_assiotivity)begin
+                        if(i !== c_hit_set_place)begin
                             if (c_usability_bit[index_addr][i] <= 1) begin
                                 c_usability_bit[index_addr][i] = 0;
                             end
