@@ -1,10 +1,10 @@
 // `include "./memory.v"
 
-module cache (
+module cache #(parameter c_line_size = 32, c_assiotivity = 2, c_index = 1, c_block_size = 2, address_size = 32) (
     c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset_i, clk_i, address_i, c_read_i, c_wr_i, c_write_data_i, c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done
 );
 
-    parameter c_line_size = 32, c_assiotivity = 2, c_index = 1, c_block_size = 2, address_size = 32; // cache line size, assiotivity, index size, block size
+     // cache line size, assiotivity, index size, block size
     parameter c_tag_size = c_line_size - c_index - c_block_size - 2;
     // parameter c_block_size = c_line_size*(2**c_block_size);
     integer i, j;

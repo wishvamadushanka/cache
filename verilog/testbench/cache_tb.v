@@ -11,11 +11,12 @@ module testcache;
 
     // output reg [line_size - 1:0] data;
     // output busywait;
-    parameter  c_block_size = 2, c_line_size = 32, address_size = 32;
+    parameter  c_block_size = 2, c_line_size = 64, address_size = 32;
 
     wire c_busywait_o;
     wire [c_line_size - 1:0] c_data_o;
-    reg [address_size - 1:0] address, c_write_data_i;
+    reg [c_line_size - 1:0] c_write_data_i;
+    reg [address_size - 1:0] address;
     reg clk, reset, c_read_i, c_wr_i;
     integer i,j;
     
@@ -25,9 +26,12 @@ module testcache;
     wire [address_size - c_block_size - 3:0] c_m_address_o;
 
     //c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset_i, clk_i, address_i, c_read_i, c_wr_i, c_m_busywait_i, c_m_read_data_i
-    cache mycache(c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset, clk, address, c_read_i, c_wr_i, c_write_data_i, c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done);
+    cache #( .c_line_size(64), .c_assiotivity(2), .c_index(1), .c_block_size(2), .address_size(32) ) mycache(c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset, clk, address, c_read_i, c_wr_i, c_write_data_i, c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done);
+    
+    // cache #( .c_line_size(64), .c_assiotivity(2), .c_index(1), .c_block_size(2), .address_size(32) ) mycache2(c_busywait_o, c_data_o, c_m_write_data_o, c_m_read_o, c_m_wr_o, c_m_address_o, reset, clk, address, c_read_i, c_wr_i, c_write_data_i, c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done);
+    
     //memory module connect
-    memory data_memory(c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done, clk, reset, c_m_read_o, c_m_wr_o, c_m_address_o, c_m_write_data_o);
+    memory #(.c_block_size(2), .c_line_size(64), .address_size(32), .mem_line_size(32) ) data_memory(c_m_busywait_i, c_m_read_data_i, m_write_done, m_read_done, clk, reset, c_m_read_o, c_m_wr_o, c_m_address_o, c_m_write_data_o);
     //m_busywait_o, m_read_data_o, m_clk_i, m_read_i, m_wr_i, m_reset_i, m_addr_i, m_wr_data_i
 
 

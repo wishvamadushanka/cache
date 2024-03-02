@@ -1,8 +1,8 @@
-module memory (
+module memory #(parameter  c_block_size = 2, c_line_size = 64, address_size = 32, mem_line_size = 32) (
     m_busywait_o, m_read_data_o, m_write_done, m_read_done, m_clk_i, m_reset_i, m_read_i, m_wr_i, m_addr_i, m_wr_data_i
 );
 
-    parameter  c_block_size = 2, c_line_size = 32, address_size = 32, mem_line_size = 32;
+    
 
     input m_clk_i, m_read_i, m_wr_i, m_reset_i;
     input [address_size - c_block_size - 3:0] m_addr_i;
